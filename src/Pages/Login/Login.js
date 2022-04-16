@@ -6,6 +6,8 @@ import auth from '../../firebase.init';
 import Loading from '../../ServiceDetails/Loading/Loading';
 import './Login.css';
 import SocialLogin from './SocialLogin/SocialLogin';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const Login = () => {
@@ -53,8 +55,13 @@ const Login = () => {
 
     const resetPassword = async() => {
         const email = emailRef.current.value;
-         await sendPasswordResetEmail(email);
-          alert('Sent email');
+        if(email){
+            await sendPasswordResetEmail(email);
+            toast('Sent email');
+        }
+        else{
+            toast('please give you email');
+        }
     }
 
     return (
@@ -78,6 +85,7 @@ const Login = () => {
             <p className='text-center'>Are you new genius car? <span className='text-primary register' onClick={navigateRegister}>Please Register</span></p>
             <p className='text-center'>Forget Password <span className='text-primary register' onClick={resetPassword}>Password Reset</span></p>
             <SocialLogin></SocialLogin>
+            <ToastContainer></ToastContainer>
         </div>
         
     );

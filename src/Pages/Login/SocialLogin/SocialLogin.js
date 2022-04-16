@@ -2,7 +2,7 @@ import React from 'react';
 import google from '../../../images/social/google.png';
 import facebook from '../../../images/social/facebook.png';
 import github from '../../../images/social/github.png';
-import { useSignInWithGithub, useSignInWithGoogle } from 'react-firebase-hooks/auth';
+import { useSignInWithFacebook, useSignInWithGithub, useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import auth from '../../../firebase.init';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../../../ServiceDetails/Loading/Loading';
@@ -10,18 +10,19 @@ import Loading from '../../../ServiceDetails/Loading/Loading';
 const SocialLogin = () => {
     const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
     const [signInWithGithub, user1, loading1, error1] = useSignInWithGithub(auth);
+    const [signInWithFacebook, user2, loading2, error2] = useSignInWithFacebook(auth);
     const navigate = useNavigate();
 
     let errorElement;
-    if (error || error1) {
+    if (error || error1 || error2) {
         errorElement = <p className='text-danger'>Error: {error?.message} {error1?.message}</p> 
     }
 
-    if (loading || loading1) {
+    if (loading || loading1 || loading2) {
     return <Loading></Loading>
     }
 
-    if(user || user1){
+    if(user || user1 || user2){
         navigate('/');
     }
 
@@ -42,7 +43,9 @@ const SocialLogin = () => {
                     <img style={{width: '25px', marginRight: '3px'}}  src={google} alt="" />
                     <span className='fw-bold text-secondary' >CONTINUE WITH GOOGLE</span>  
                 </button>
-                <button style={{borderRadius: '50px'}} className='w-100 p-3 border-secondary mb-2'>
+                <button 
+                    onClick={() => signInWithFacebook()}
+                    style={{borderRadius: '50px'}} className='w-100 p-3 border-secondary mb-2'>
                     <img style={{width: '25px', marginRight: '3px'}}  src={facebook} alt="" />
                     <span className='fw-bold text-secondary'>CONTINUE WITH FACEBOOK</span> 
                 </button>

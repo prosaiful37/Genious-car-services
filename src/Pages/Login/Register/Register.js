@@ -17,7 +17,7 @@ const Register = () => {
       ] = useCreateUserWithEmailAndPassword(auth, {sendEmailVerification:true});
       const [updateProfile, updating, error1] = useUpdateProfile(auth);
     
-      if (error) {
+      if (error || error1) {
         errorElement = <p className='text-danger'>Error: {error.message}</p>
     }
     const navigate = useNavigate();
