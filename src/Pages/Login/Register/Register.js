@@ -5,7 +5,7 @@ import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import './Register.css';
 import SocialLogin from '../SocialLogin/SocialLogin';
 
-
+let errorElement;
 const Register = () => {
     const [
         createUserWithEmailAndPassword,
@@ -14,12 +14,16 @@ const Register = () => {
         error,
       ] = useCreateUserWithEmailAndPassword(auth);
     
-    
+      if (error) {
+        errorElement = <p className='text-danger'>Error: {error.message}</p>
+    }
+
     const navigate = useNavigate();
 
     const navigateLogin = event => {
         navigate('/login');
     }
+
 
     if(user){
         navigate('/');
@@ -42,10 +46,14 @@ const Register = () => {
                 <input type="email" name='email' id='' placeholder='Email-address' required />
                 
                 <input type="password" name='password' placeholder='password' required />
+
+                <input type="checkbox" name="terms" id="" />
+                <label htmlFor="terms">Accept Genius Car Terms and Condation</label>
                 
-                <input  type="submit" value='Register' />
+                <input className='mt-2' type="submit" value='Register' />
             </form>
-            <p className='text-center'>Already Have An Account? <span className='text-danger register' onClick={navigateLogin}>Please Login</span></p>
+            {errorElement}
+            <p>Already Have An Account? <span className='text-primary register' onClick={navigateLogin}>Please Login</span></p>
             <SocialLogin></SocialLogin>
         </div>
     );

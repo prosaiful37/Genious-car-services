@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { Button, Form } from 'react-bootstrap';
-import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import { useSendPasswordResetEmail, useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { useNavigate, useLocation } from 'react-router-dom';
 import auth from '../../firebase.init';
 import './Login.css';
@@ -12,6 +12,8 @@ const Login = () => {
     const passwordRef = useRef('');
     const navigate = useNavigate();
     const location = useLocation();
+
+    let errorElement;
     const [
         signInWithEmailAndPassword,
         user,
@@ -19,14 +21,16 @@ const Login = () => {
         error,
       ] = useSignInWithEmailAndPassword(auth);
 
+    const [sendPasswordResetEmail, sending, error1] = useSendPasswordResetEmail(auth);
+
       let from = location.state?.from?.pathname || "/";
 
     if (loading) {
     return <p>Loading...</p>;
     }
 
-    if(error){
-        return error.message;
+    if (error) {
+        errorElement = <p className='text-danger'>Error: {error.message}</p>
     }
 
     if(user){
@@ -42,32 +46,36 @@ const Login = () => {
         signInWithEmailAndPassword(email, password)
     }
 
-    const navigateRegister = event => {
+    const navigateRegister = () => {
         navigate('/register')
+    }
+
+    const resetPassword = async() => {
+        const email = emailRef.current.value;
+         await sendPasswordResetEmail(email);
+          alert('Sent email');
     }
 
     return (
         <div className='container w-50 mx-auto my-5'>
             <h2 className='text-center py-2'>Please Login !!</h2>
-            <Form onSubmit={submitFormHandle} className=' border p-3 shadow '>
+            <Form onSubmit={submitFormHandle} className=' border p-3 shadow mb-2'>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
-                    <Form.Label>Email address</Form.Label>
                     <Form.Control ref={emailRef} type="email" placeholder="Enter email" required />
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicPassword">
-                    <Form.Label>Password</Form.Label>
                     <Form.Control ref={passwordRef} type="password" placeholder="Password" required />
                 </Form.Group>
-                <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                    <Form.Check type="checkbox" label="Check me out" />
-                </Form.Group>
+                
                 <p>{error}</p>
-                <Button variant="primary" type="submit">
+                <Button className='w-100' variant="secondary" type="submit">
                     Submit
                 </Button>
             </Form>
-            <p className='text-center'>Are you new genius car? <span className='text-danger register' onClick={navigateRegister}>Please Register</span></p>
+            {errorElement}
+            <p className='text-center'>Are you new genius car? <span className='text-primary register' onClick={navigateRegister}>Please Register</span></p>
+            <p className='text-center'>Forget Password <span className='text-primary register' onClick={resetPassword}>Password Reset</span></p>
             <SocialLogin></SocialLogin>
         </div>
         
