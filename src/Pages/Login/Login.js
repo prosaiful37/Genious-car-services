@@ -3,6 +3,7 @@ import { Button, Form } from 'react-bootstrap';
 import { useSendPasswordResetEmail, useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { useNavigate, useLocation } from 'react-router-dom';
 import auth from '../../firebase.init';
+import Loading from '../../ServiceDetails/Loading/Loading';
 import './Login.css';
 import SocialLogin from './SocialLogin/SocialLogin';
 
@@ -25,8 +26,8 @@ const Login = () => {
 
       let from = location.state?.from?.pathname || "/";
 
-    if (loading) {
-    return <p>Loading...</p>;
+    if (loading || sending) {
+    return <Loading></Loading> ;
     }
 
     if (error) {
@@ -67,7 +68,7 @@ const Login = () => {
                 <Form.Group className="mb-3" controlId="formBasicPassword">
                     <Form.Control ref={passwordRef} type="password" placeholder="Password" required />
                 </Form.Group>
-                
+
                 <p>{error}</p>
                 <Button className='w-100' variant="secondary" type="submit">
                     Submit
