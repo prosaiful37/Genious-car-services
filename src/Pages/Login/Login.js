@@ -4,6 +4,7 @@ import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { useNavigate, useLocation } from 'react-router-dom';
 import auth from '../../firebase.init';
 import './Login.css';
+import SocialLogin from './SocialLogin/SocialLogin';
 
 
 const Login = () => {
@@ -46,9 +47,9 @@ const Login = () => {
     }
 
     return (
-        <div className='container my-5'>
+        <div className='container w-50 mx-auto my-5'>
             <h2 className='text-center py-2'>Please Login !!</h2>
-            <Form onSubmit={submitFormHandle} className='w-50 mx-auto border p-5 shadow '>
+            <Form onSubmit={submitFormHandle} className=' border p-3 shadow '>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label>Email address</Form.Label>
                     <Form.Control ref={emailRef} type="email" placeholder="Enter email" required />
@@ -67,6 +68,7 @@ const Login = () => {
                 </Button>
             </Form>
             <p className='text-center'>Are you new genius car? <span className='text-danger register' onClick={navigateRegister}>Please Register</span></p>
+            <SocialLogin></SocialLogin>
         </div>
         
     );
