@@ -1,11 +1,11 @@
 import React from 'react';
+import PageTitle from '../Shared/PageTitle/PageTitle';
 
 const About = () => {
     return (
         <div>
-            <h3>Hello world form home</h3>
-            <h3>Hello world form home</h3>
-            <h3>Hello world form home</h3>
+            
+            <PageTitle title='about'></PageTitle>
             <h3>Hello world form home</h3>
         </div>
     );

@@ -29,10 +29,10 @@ const Login = () => {
       let from = location.state?.from?.pathname || "/";
 
     if (loading || sending) {
-    return <Loading></Loading> ;
+        return <Loading></Loading>;
     }
 
-    if (error) {
+    if (error || error1) {
         errorElement = <p className='text-danger'>Error: {error.message}</p>
     }
 

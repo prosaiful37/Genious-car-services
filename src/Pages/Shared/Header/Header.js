@@ -22,6 +22,7 @@ const Header = () => {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="ms-auto">
+            <Nav.Link href="Home">Home</Nav.Link>
             <Nav.Link href="#Services">Services</Nav.Link>
             <Nav.Link href="#experts">Experts</Nav.Link>
             <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
@@ -36,7 +37,7 @@ const Header = () => {
             <Nav.Link as={Link} to="about">About</Nav.Link>
             {
               user ?
-                <button className='btn btn-link text-decoration-none text-white' onClick={handleLogout}>Log Out</button>
+                <button className='btn btn-link text-decoration-none' onClick={handleLogout}>Log Out </button>
               :
               <Nav.Link as={Link} eventKey={2} to="login">
               Login
